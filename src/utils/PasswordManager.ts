@@ -1,15 +1,16 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import AppError from "./AppError";
 
-class AuthenticationService {
+class PasswordManager {
   async hashPassword(password: string) {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);
   }
 
   async comparePassword(password: string, hashedPassword: string) {
-    return await bcrypt.compare(password, hashedPassword);
+    const isMatch = await bcrypt.compare(password, hashedPassword);
+    if (!isMatch) throw new AppError("Email or password is incorrect", 400);
   }
 }
 
-export default AuthenticationService;
+export default PasswordManager;
