@@ -3,6 +3,7 @@ import { ZodError } from "zod";
 import dotenv from "dotenv";
 import AppError from "@/utils/AppError";
 import { JsonWebTokenError } from "jsonwebtoken";
+import { StatusCodes } from "@/utils/enums";
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const handleZodError = (err: ZodError) => {
 };
 
 const handleTokenError = () => {
-  return new AppError("Invalid token", 400);
+  return new AppError("Invalid token", StatusCodes.BAD_REQUEST);
 };
 
 const errorHandler = (
@@ -31,7 +32,7 @@ const errorHandler = (
   let errors = err;
 
   if (!isProduction) {
-    return res.status(500).json({
+    return res.status(StatusCodes.INTERNAL_SERVER).json({
       err: err,
       message: err.message,
       stackTrace: err.stack,

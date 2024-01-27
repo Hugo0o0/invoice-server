@@ -6,7 +6,8 @@ import {
   updateInvoice,
 } from "@/controllers/invoice/invoiceController";
 import { login, signup } from "@/controllers/user/userController";
-import auth from "@/middlewares/auth/auth";
+import hasValidToken from "@/middlewares/auth/hasValidToken";
+import isCorretUser from "@/middlewares/auth/isCorrectUser";
 import { Router } from "express";
 
 const router = Router();
@@ -14,12 +15,15 @@ const router = Router();
 router.post("/signup", signup);
 router.post("/login", login);
 
-router.route("/invoices").get(auth, getInvoices).post(auth, createInvoice);
+router
+  .route("/invoices")
+  .get(hasValidToken, getInvoices)
+  .post(hasValidToken, createInvoice);
 
 router
   .route("/invoices/:id")
-  .get(auth, getInvoice)
-  .put(auth, updateInvoice)
-  .delete(auth, deleteInvoice);
+  .get(hasValidToken, isCorretUser, getInvoice)
+  .put(hasValidToken, isCorretUser, updateInvoice)
+  .delete(hasValidToken, isCorretUser, deleteInvoice);
 
 export default router;

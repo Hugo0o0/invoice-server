@@ -1,28 +1,40 @@
+import invoice from "@/prisma-client/InvoiceClient";
+import { StatusCodes } from "@/utils/enums";
 import tryCatch from "@/utils/tryCatch";
 import { RequestHandler } from "express";
 
 export const getInvoices: RequestHandler = tryCatch(async (req, res, next) => {
-  return res.status(200).json({ message: req.body.user });
+  const invoices = await invoice.getInvoices(req.body.user.id);
+
+  return res.status(StatusCodes.OK).json({ status: "success", data: invoices });
 });
 
 export const getInvoice: RequestHandler = tryCatch(async (req, res, next) => {
-  return res.status(200).json({ message: "get invoice" });
+  const fInvoice = await invoice.getInvoice(req.params.id);
+  return res.status(StatusCodes.OK).json({ status: "success", data: fInvoice });
 });
 
 export const createInvoice: RequestHandler = tryCatch(
   async (req, res, next) => {
-    return res.status(200).json({ message: "create invoice" });
+    const newInvoice = await invoice.createInvoice(req.body, req.body.user.id);
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ status: "success", data: newInvoice });
   }
 );
 
 export const updateInvoice: RequestHandler = tryCatch(
   async (req, res, next) => {
-    return res.status(200).json({ message: "update invoice" });
+    const updatedInvoice = await invoice.updateInvoice(req.params.id, req.body);
+    return res
+      .status(StatusCodes.OK)
+      .json({ status: "success", data: updatedInvoice });
   }
 );
 
 export const deleteInvoice: RequestHandler = tryCatch(
   async (req, res, next) => {
-    return res.status(200).json({ message: "delete invoice" });
+    await invoice.deleteInvoice(req.params.id);
+    return res.status(StatusCodes.DELETE).json({ status: "success" });
   }
 );

@@ -46,7 +46,7 @@ model Invoice{
 
 
   userId Int
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 }
 
 
@@ -60,7 +60,7 @@ model SenderAddress{
   country String
 
   invoiceId String @unique
-  invoice Invoice @relation(fields: [invoiceId],references: [id])
+  invoice Invoice @relation(fields: [invoiceId],references: [id],onDelete: Cascade)
 }
 
 model ClientAddress{
@@ -72,7 +72,7 @@ model ClientAddress{
   country String
 
   invoiceId String @unique
-  invoice Invoice @relation(fields: [invoiceId],references: [id])
+  invoice Invoice @relation(fields: [invoiceId],references: [id],onDelete: Cascade)
 }
 
 
@@ -84,5 +84,5 @@ model Item{
   total Decimal
 
   invoiceId String @unique
-  invoice Invoice @relation(fields: [invoiceId],references: [id])
+  invoice Invoice @relation(fields: [invoiceId],references: [id],onDelete: Cascade)
 }
