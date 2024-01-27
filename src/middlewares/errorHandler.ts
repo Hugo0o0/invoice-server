@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import dotenv from "dotenv";
 import AppError from "@/utils/AppError";
+import { JsonWebTokenError } from "jsonwebtoken";
 
 dotenv.config();
 
@@ -15,6 +16,10 @@ const handleZodError = (err: ZodError) => {
   });
 
   return new AppError(JSON.stringify(errors), 400);
+};
+
+const handleTokenError = () => {
+  return new AppError("Invalid token", 400);
 };
 
 const errorHandler = (
@@ -38,6 +43,14 @@ const errorHandler = (
     return res.status(errors.statusCode).json({
       status: errors.status,
       errors: JSON.parse(errors.message),
+    });
+  }
+
+  if (err instanceof JsonWebTokenError) {
+    errors = handleTokenError();
+    return res.status(errors.statusCode).json({
+      status: errors.status,
+      message: errors.message,
     });
   }
 

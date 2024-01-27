@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import prisma from "./prisma-client";
 import UserCreateInput, { UserCreateInputType } from "@/utils/zod/user";
 import AppError from "@/utils/AppError";
-import PasswordManager from "@/utils/PasswordManager";
+import PasswordManager from "../utils/PasswordManager";
 
 const { comparePassword, hashPassword } = new PasswordManager();
 

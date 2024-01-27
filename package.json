@@ -4,9 +4,8 @@
   "main": "src/server.ts",
   "license": "MIT",
   "scripts": {
-    "start:dev": "webpack",
-    "run:dev": "nodemon build/server.js",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "nodemon build/server.js"
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
