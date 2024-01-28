@@ -1,61 +1,30 @@
 import { PrismaClient } from "@prisma/client";
 import prisma from "./prisma-client";
-import UserCreateInput, { UserCreateInputType } from "@/utils/zod/invoice";
+import InvoiceCreateInput, {
+  InvoiceCreateInputType,
+  InvoiceUpdateInput,
+} from "@/utils/zod/invoice";
 
 class InvoiceClient {
-  constructor(
-    private readonly invoice: PrismaClient["invoice"],
-    private readonly clientAddress: PrismaClient["clientAddress"],
-    private readonly senderAddress: PrismaClient["senderAddress"],
-    private readonly items: PrismaClient["item"]
-  ) {}
+  constructor(private readonly invoice: PrismaClient["invoice"]) {}
 
-  async createInvoice(data: UserCreateInputType, userId: number) {
-    UserCreateInput.parse(data);
-    const invoice = await this.invoice.create({
-      data: {
-        clientEmail: data.clientEmail,
-        clientName: data.clientName,
-        createdAt: new Date(),
-        description: data.description,
-        paymentDue: new Date(data.paymentDue),
-        paymentTerms: data.paymentTerms,
-        status: data.status,
-        clientAddress: {
-          create: data.clientAddress,
-        },
-        senderAddress: {
-          create: data.senderAddress,
-        },
-
-        userId: userId,
-
-        items: {
-          create: data.items,
-        },
-      },
-    });
-
-    return invoice;
+  public async createInvoice(data: InvoiceCreateInputType, userId: number) {
+    InvoiceCreateInput.parse(data);
   }
 
-  async getInvoices(id: number) {
-    const invoices = await this.invoice.findMany({
-      where: {
-        userId: id,
-      },
+  public async getInvoices(userId: string) {
+    return await this.invoice.findMany({
+      where: { userId },
       include: {
         clientAddress: true,
         senderAddress: true,
         items: true,
       },
     });
-
-    return invoices;
   }
 
-  async getInvoice(id: string) {
-    return await this.invoice.findUniqueOrThrow({
+  public async getInvoice(id: string) {
+    return await this.invoice.findUnique({
       where: { id },
       include: {
         clientAddress: true,
@@ -66,57 +35,25 @@ class InvoiceClient {
   }
 
   async getInvoiceWithUser(id: string) {
-    return await this.invoice.findUniqueOrThrow({
+    return await this.invoice.findUnique({
       where: { id },
       include: {
-        clientAddress: true,
         user: true,
-        senderAddress: true,
-        items: true,
       },
     });
   }
 
-  async updateInvoice(id: string, data: UserCreateInputType) {
-    UserCreateInput.parse(data);
-    const invoice = await this.invoice.update({
-      where: { id },
-      data: {
-        clientEmail: data.clientEmail,
-        clientName: data.clientName,
-        createdAt: new Date(),
-        description: data.description,
-        paymentDue: new Date(data.paymentDue),
-        paymentTerms: data.paymentTerms,
-        status: data.status,
-        clientAddress: {
-          update: data.clientAddress,
-        },
-        senderAddress: {
-          update: data.senderAddress,
-        },
-
-        //todo add update items
-      },
-    });
-
-    return invoice;
+  public async updateInvoice(data: InvoiceCreateInputType, id: string) {
+    InvoiceUpdateInput.parse(data);
   }
 
-  async deleteInvoice(id: string) {
-    await this.invoice.delete({
+  public async deleteInvoice(id: string) {
+    return await this.invoice.delete({
       where: { id },
     });
-
-    return;
   }
 }
 
-const invoice = new InvoiceClient(
-  prisma.invoice,
-  prisma.clientAddress,
-  prisma.senderAddress,
-  prisma.item
-);
+const invoice = new InvoiceClient(prisma.invoice);
 
 export default invoice;

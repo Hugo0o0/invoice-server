@@ -1,88 +1,76 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mongodb"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-
 model User {
-  id        Int      @id  @default(autoincrement())
-
-  email     String   @unique
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId 
+  email     String    @unique
   name      String?
   password  String
-  role      String   @default("user")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  deletedAt DateTime? 
-
-  invoices Invoice[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+  invoices  Invoice[]
 }
 
-model Invoice{
-  id       String @unique @id @default(uuid())
-  status String @default("draft")
-  description String
-  clientName String
-  clientEmail String
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  paymentDue DateTime
-
-  paymentTerms Int
-
+model Invoice {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId 
+  status        InvoiceStatus  @default(draft)
+  description   String
+  clientName    String
+  clientEmail   String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  paymentDue    DateTime
+  paymentTerms  Int
+  clientAddress ClientAddress? 
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String   @unique     @db.ObjectId
+  items         Item[]
   senderAddress SenderAddress?
-  clientAddress ClientAddress?
-  items Item[]
-
-
-  userId Int
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 }
 
 
-
-model SenderAddress{
-  id        Int      @id @default(autoincrement())
-
-  street String
-  city String
-  postCode String
-  country String
-
-  invoiceId String @unique
-  invoice Invoice @relation(fields: [invoiceId],references: [id],onDelete: Cascade)
+model SenderAddress {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  street    String
+  city      String
+  postCode  String
+  country   String
+  invoiceId String  @unique @db.ObjectId
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
 
-model ClientAddress{
-  id        Int      @id @default(autoincrement())
+model ClientAddress {
+   id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  street    String
+  city      String
+  postCode  String
+  country   String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId String  @unique  @db.ObjectId
+}
 
-  street String
-  city String
-  postCode String
-  country String
-
-  invoiceId String @unique
-  invoice Invoice @relation(fields: [invoiceId],references: [id],onDelete: Cascade)
+model Item {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  quantity    Int
+  price       Int
+  total       Int
+  invoiceId   String  @unique @db.ObjectId
+  invoice     Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
 
 
-model Item{
-  id        Int      @id @default(autoincrement())
-  name String
-  quantity Int
-  price Decimal
-  total Decimal
-
-  invoiceId String @unique
-  invoice Invoice @relation(fields: [invoiceId],references: [id],onDelete: Cascade)
+enum InvoiceStatus {
+  draft
+  pending
+  paid
 }
+

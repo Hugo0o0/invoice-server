@@ -3,11 +3,13 @@ import AdressCreateInput from "./address";
 import ItemCreateInput from "./items";
 import { InvoiceErrorMessages } from "../enums";
 
-const UserCreateInput = z.object({
-  status: z.enum(["draft", "pending", "paid"], {
-    invalid_type_error: InvoiceErrorMessages.INVALID_STATUS,
-    required_error: InvoiceErrorMessages.STATUS_REQUIRED,
-  }),
+const InvoiceCreateInput = z.object({
+  status: z
+    .enum(["draft", "pending", "paid"], {
+      invalid_type_error: InvoiceErrorMessages.INVALID_STATUS,
+      required_error: InvoiceErrorMessages.STATUS_REQUIRED,
+    })
+    .optional(),
 
   description: z
     .string({
@@ -35,6 +37,9 @@ const UserCreateInput = z.object({
     .email({
       message: InvoiceErrorMessages.INVALID_CLIENT_EMAIL,
     }),
+
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
   paymentDue: z
     .string({
       invalid_type_error: InvoiceErrorMessages.INVALID_PAYMENT_DUE,
@@ -58,10 +63,12 @@ const UserCreateInput = z.object({
 
   senderAddress: AdressCreateInput,
   clientAddress: AdressCreateInput,
-
-  items: ItemCreateInput,
+  items: ItemCreateInput.array(),
 });
 
-export type UserCreateInputType = z.infer<typeof UserCreateInput>;
+export const InvoiceUpdateInput = InvoiceCreateInput.partial();
 
-export default UserCreateInput;
+export type InvoiceUpdateInputType = z.infer<typeof InvoiceUpdateInput>;
+export type InvoiceCreateInputType = z.infer<typeof InvoiceCreateInput>;
+
+export default InvoiceCreateInput;

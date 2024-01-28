@@ -25,7 +25,8 @@ export const createInvoice: RequestHandler = tryCatch(
 
 export const updateInvoice: RequestHandler = tryCatch(
   async (req, res, next) => {
-    const updatedInvoice = await invoice.updateInvoice(req.params.id, req.body);
+    const updatedInvoice = await invoice.updateInvoice(req.body, req.params.id);
+
     return res
       .status(StatusCodes.OK)
       .json({ status: "success", data: updatedInvoice });
