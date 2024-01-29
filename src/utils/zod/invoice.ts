@@ -1,6 +1,6 @@
 import { z } from "zod";
 import AdressCreateInput from "./address";
-import ItemCreateInput from "./items";
+import ItemCreateInput, { ItemUpdateInput } from "./items";
 import { InvoiceErrorMessages } from "../enums";
 
 const InvoiceCreateInput = z.object({
@@ -61,13 +61,17 @@ const InvoiceCreateInput = z.object({
       message: InvoiceErrorMessages.INVALID_PAYMENT_TERMS,
     }),
 
+  total: z.number({
+    invalid_type_error: InvoiceErrorMessages.INVALID_TOTAL,
+    required_error: InvoiceErrorMessages.TOTAL_REQUIRED,
+  }),
+
   senderAddress: AdressCreateInput,
   clientAddress: AdressCreateInput,
-  items: ItemCreateInput.array(),
+  items: ItemCreateInput.array().optional(),
 });
 
 export const InvoiceUpdateInput = InvoiceCreateInput.partial();
-
 export type InvoiceUpdateInputType = z.infer<typeof InvoiceUpdateInput>;
 export type InvoiceCreateInputType = z.infer<typeof InvoiceCreateInput>;
 

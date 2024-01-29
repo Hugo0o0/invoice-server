@@ -58,4 +58,6 @@ export enum InvoiceErrorMessages {
   PAYMENT_DUE_REQUIRED = "Payment due is required",
   INVALID_PAYMENT_TERMS = "Invalid payment terms",
   PAYMENT_TERMS_REQUIRED = "Payment terms is required",
+  INVALID_TOTAL = "Invalid total",
+  TOTAL_REQUIRED = "Total is required",
 }

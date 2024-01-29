@@ -2,8 +2,6 @@ import AppError from "@/utils/AppError";
 import TokenProcessor from "@/utils/TokenProcessor";
 import { StatusCodes } from "@/utils/enums";
 import tryCatch from "@/utils/tryCatch";
-import { Request } from "express";
-import { JwtPayload } from "jsonwebtoken";
 
 const { verifyToken } = new TokenProcessor();
 

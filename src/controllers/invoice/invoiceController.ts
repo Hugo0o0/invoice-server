@@ -5,7 +5,6 @@ import { RequestHandler } from "express";
 
 export const getInvoices: RequestHandler = tryCatch(async (req, res, next) => {
   const invoices = await invoice.getInvoices(req.body.user.id);
-
   return res.status(StatusCodes.OK).json({ status: "success", data: invoices });
 });
 
@@ -26,7 +25,6 @@ export const createInvoice: RequestHandler = tryCatch(
 export const updateInvoice: RequestHandler = tryCatch(
   async (req, res, next) => {
     const updatedInvoice = await invoice.updateInvoice(req.body, req.params.id);
-
     return res
       .status(StatusCodes.OK)
       .json({ status: "success", data: updatedInvoice });

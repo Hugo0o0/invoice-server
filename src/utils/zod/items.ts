@@ -2,6 +2,7 @@ import { z } from "zod";
 import { ItemErrorMessages } from "../enums";
 
 const ItemCreateInput = z.object({
+  id: z.string().optional(),
   name: z.string({
     invalid_type_error: ItemErrorMessages.INVALID_NAME,
     required_error: ItemErrorMessages.NAME_REQUIRED,
@@ -41,6 +42,8 @@ const ItemCreateInput = z.object({
     }),
 });
 
+export const ItemUpdateInput = ItemCreateInput.partial();
+export type ItemUpdateInputType = z.infer<typeof ItemUpdateInput>;
 export type ItemCreateInputType = z.infer<typeof ItemCreateInput>;
 
 export default ItemCreateInput;

@@ -9,23 +9,18 @@ const { comparePassword, hashPassword } = new PasswordManager();
 class User {
   constructor(private readonly prismaUser: PrismaClient["user"]) {}
 
-  async signup(data: UserCreateInputType) {
+  public async signup(data: UserCreateInputType) {
     UserCreateInput.parse(data);
-
     const userExist = await this.checkUserExist(data.email);
     if (userExist) throw new AppError("Email is taken", 400);
-
     const user = await this.createUserAndReturn(data);
-
     return user;
   }
 
-  async login(email: string, password: string) {
+  public async login(email: string, password: string) {
     const user = await this.checkUserExist(email);
     if (!user) throw new AppError("Email or password is incorrect", 400);
-
     await comparePassword(password, user.password);
-
     return user;
   }
 
