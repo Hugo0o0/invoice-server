@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AdressErrorMessages } from "../enums";
+import { AdressErrorMessages } from "../enums/ErrorMessages";
 
 const MAX_LENGTH = 55;
 

@@ -1,11 +1,10 @@
 import AppError from "@/utils/AppError";
 import TokenProcessor from "@/utils/TokenProcessor";
-import { StatusCodes } from "@/utils/enums";
+import { StatusCodes } from "@/utils/enums/StatusCodes";
 import tryCatch from "@/utils/tryCatch";
 
-const { verifyToken } = new TokenProcessor();
-
 const hasValidToken = tryCatch(async (req, res, next) => {
+  const { verifyToken } = new TokenProcessor();
   const authHeader = req.headers.authorization;
   if (!authHeader)
     return next(new AppError("Unauthorized", StatusCodes.UNAUTHORIZED));

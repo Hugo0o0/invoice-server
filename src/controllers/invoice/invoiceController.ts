@@ -1,5 +1,5 @@
 import invoice from "@/prisma-client/InvoiceClient";
-import { StatusCodes } from "@/utils/enums";
+import { StatusCodes } from "@/utils/enums/StatusCodes";
 import tryCatch from "@/utils/tryCatch";
 import { RequestHandler } from "express";
 

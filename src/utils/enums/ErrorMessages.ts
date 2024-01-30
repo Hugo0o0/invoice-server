@@ -1,13 +1,3 @@
-export enum StatusCodes {
-  OK = 200,
-  BAD_REQUEST = 400,
-  INTERNAL_SERVER = 500,
-  CREATED = 201,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
-  DELETE = 204,
-}
-
 export enum ItemErrorMessages {
   INVALID_NAME = "Invalid name",
   INVALID_QUANTITY = "Invalid quantity",

@@ -1,6 +1,6 @@
 import user from "@/prisma-client/UserClient";
 import TokenProcessor from "@/utils/TokenProcessor";
-import { StatusCodes } from "@/utils/enums";
+import { StatusCodes } from "@/utils/enums/StatusCodes";
 import tryCatch from "@/utils/tryCatch";
 import { User } from "@prisma/client";
 

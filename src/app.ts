@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import router from "@/routes/route";
 import errorHandler from "@/middlewares/errorHandler";
 import AppError from "./utils/AppError";
-import { StatusCodes } from "./utils/enums";
+import { StatusCodes } from "./utils/enums/StatusCodes";
 
 dotenv.config();
 

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { UserErrorMessages } from "../enums";
+import { UserErrorMessages } from "../enums/ErrorMessages";
 
 const UserCreateInput = z.object({
   email: z

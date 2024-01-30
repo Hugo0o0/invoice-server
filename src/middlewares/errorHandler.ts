@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import dotenv from "dotenv";
 import AppError from "@/utils/AppError";
-import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
-import { StatusCodes } from "@/utils/enums";
+import { JsonWebTokenError } from "jsonwebtoken";
+import { StatusCodes } from "@/utils/enums/StatusCodes";
 
 dotenv.config();
 
@@ -47,7 +47,7 @@ const errorHandler = (
     });
   }
 
-  if (err instanceof JsonWebTokenError || err instanceof TokenExpiredError) {
+  if (err instanceof JsonWebTokenError) {
     errors = handleTokenError();
     return res.status(errors.statusCode).json({
       status: errors.status,
@@ -62,7 +62,7 @@ const errorHandler = (
     });
   }
 
-  return res.status(500).json({
+  return res.status(StatusCodes.INTERNAL_SERVER).json({
     status: "error",
     message: "Something went wrong",
   });

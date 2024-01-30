@@ -1,6 +1,6 @@
 import invoice from "@/prisma-client/InvoiceClient";
 import AppError from "@/utils/AppError";
-import { StatusCodes } from "@/utils/enums";
+import { StatusCodes } from "@/utils/enums/StatusCodes";
 import tryCatch from "@/utils/tryCatch";
 
 const isCorretUser = tryCatch(async (req, res, next) => {

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import AdressCreateInput from "./address";
 import ItemCreateInput, { ItemUpdateInput } from "./items";
-import { InvoiceErrorMessages } from "../enums";
+import { InvoiceErrorMessages } from "../enums/ErrorMessages";
 
 const InvoiceCreateInput = z.object({
   status: z

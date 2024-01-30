@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ItemErrorMessages } from "../enums";
+import { ItemErrorMessages } from "../enums/ErrorMessages";
 
 const ItemCreateInput = z.object({
   id: z.string().optional(),
