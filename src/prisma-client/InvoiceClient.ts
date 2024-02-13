@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { $Enums, PrismaClient } from "@prisma/client";
 import prisma from "./prisma-client";
 import InvoiceCreateInput, {
   InvoiceCreateInputType,
@@ -16,9 +16,14 @@ class InvoiceClient {
     return await this.invoice.create(createInvoiceSanitizer(data, userId));
   }
 
-  public async getInvoices(userId: string) {
+  public async getInvoices(userId: string, query: $Enums.InvoiceStatus[]) {
     return await this.invoice.findMany({
-      where: { userId },
+      where: {
+        userId,
+        status: {
+          in: query,
+        },
+      },
       include: {
         clientAddress: true,
         senderAddress: true,

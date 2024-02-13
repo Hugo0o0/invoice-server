@@ -1,10 +1,15 @@
 import invoice from "@/prisma-client/InvoiceClient";
 import { StatusCodes } from "@/utils/enums/StatusCodes";
 import tryCatch from "@/utils/tryCatch";
+import { $Enums } from "@prisma/client";
 import { RequestHandler } from "express";
 
 export const getInvoices: RequestHandler = tryCatch(async (req, res, next) => {
-  const invoices = await invoice.getInvoices(req.body.user.id);
+  const invoices = await invoice.getInvoices(
+    req.body.user.id,
+    req.query.status as $Enums.InvoiceStatus[]
+  );
+
   return res.status(StatusCodes.OK).json({ status: "success", data: invoices });
 });
 

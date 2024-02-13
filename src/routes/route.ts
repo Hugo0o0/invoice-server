@@ -8,6 +8,7 @@ import {
 import { login, signup } from "@/controllers/user/userController";
 import hasValidToken from "@/middlewares/auth/hasValidToken";
 import isCorretUser from "@/middlewares/auth/isCorrectUser";
+import statusQueryExsist from "@/middlewares/statusQueryExsist";
 import { Router } from "express";
 
 const router = Router();
@@ -17,7 +18,7 @@ router.post("/login", login);
 
 router
   .route("/invoices")
-  .get(hasValidToken, getInvoices)
+  .get(hasValidToken, statusQueryExsist, getInvoices)
   .post(hasValidToken, createInvoice);
 
 router
