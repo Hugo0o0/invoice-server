@@ -32,13 +32,18 @@ class InvoiceClient {
   }
 
   public async getInvoice(id: string) {
-    return await this.invoice.findUnique({
+    const invoiceData = await this.invoice.findUnique({
       where: { id },
       include: {
         clientAddress: true,
         senderAddress: true,
       },
     });
+    //@ts-ignore
+    delete invoiceData.userId;
+    //@ts-ignore
+    delete invoiceData.updatedAt;
+    return invoiceData;
   }
 
   async getInvoiceWithUser(id: string) {

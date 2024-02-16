@@ -3,7 +3,6 @@ import { InvoiceUpdateInputType } from "../zod/invoice";
 const updateInvoiceSanitizer = (data: InvoiceUpdateInputType, id: string) => {
   return {
     where: { id },
-
     data: {
       items: data.items,
       clientAddress: {
@@ -18,7 +17,8 @@ const updateInvoiceSanitizer = (data: InvoiceUpdateInputType, id: string) => {
       clientEmail: data.clientEmail,
       clientName: data.clientName,
       paymentDue: data.paymentDue,
-      total: data.total,
+      total:
+        data.items?.map((item) => item.total).reduce((a, b) => a + b, 0) || 0,
     },
     include: {
       clientAddress: true,
