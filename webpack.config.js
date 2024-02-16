@@ -10,7 +10,7 @@ module.exports = {
     server: "./src/server.ts",
   },
   mode: NODE_ENV,
-  watch: NODE_ENV === "development",
+  // watch: NODE_ENV === "development",
   target: "node",
   externals: [nodeExternals()],
   output: {
