@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack -w",
     "build": "webpack && node build/server.js",
-    "start": "set NODE_ENV=production && node build/server.js"
+    "start": "node build/server.js"
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
