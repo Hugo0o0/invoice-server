@@ -4,8 +4,8 @@
   "main": "src/server.ts",
   "license": "MIT",
   "scripts": {
-    "build": "webpack -w",
-    "dev": "nodemon build/server.js",
+    "dev": "webpack -w",
+    "build": "webpack && node build/server.js",
     "start": "set NODE_ENV=production && node build/server.js"
   },
   "dependencies": {

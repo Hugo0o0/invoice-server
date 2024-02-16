@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 class TokenProcessor {
   generateToken(payload: any) {
     return jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: "1d",
+      expiresIn: "30d",
     });
   }
 
