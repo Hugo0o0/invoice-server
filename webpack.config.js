@@ -17,15 +17,7 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     filename: "[name].js",
   },
-  plugins: [
-    new WebpackShellPluginNext({
-      onBuildEnd: {
-        scripts: ["npm run start"],
-        blocking: false,
-        parallel: true,
-      },
-    }),
-  ],
+  plugins: [],
   resolve: {
     extensions: [".ts", ".js"],
     alias: {
